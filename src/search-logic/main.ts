@@ -13,10 +13,13 @@ export async function* searchPath(field: Array<CellInfo[]>, searchType: string, 
 			throw new Error("There's no way")
 		}
 		
+		// Removes a cell from the frontier and
+		// gives to the App component for marking it as explored 
 		const node: NodeType = frontier.remove()
 		await new Promise(resolve => setTimeout(resolve, 1))
 		yield node.state
 		
+		// Finishes the search returning an array of path coordinates
 		if (node.state.row === target.row && node.state.column === target.column) {
 			const path: Coordinates[] = [node.state]
 			let parent: NodeType | null = node.parent
@@ -30,8 +33,11 @@ export async function* searchPath(field: Array<CellInfo[]>, searchType: string, 
 
 		exploredStates.push(node.state)
 
+		// Takes the neighbour cells
 		const newNodes: NodeType[] = getNewNodes(node, field)
 		
+		// Checks is a new cell either explored or in the order to be
+		// If not add it to the order
 		for (let i = 0; i < newNodes.length; i++) {
 			const newNode: NodeType = newNodes[i]
 			if (

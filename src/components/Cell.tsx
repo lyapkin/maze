@@ -1,6 +1,8 @@
 import React from 'react'
 import CellInfo from '../interfaces/interfaces'
 
+
+
 const Cell: React.FC<{
 				info: CellInfo,
 				mouseDowned: boolean,
@@ -8,6 +10,7 @@ const Cell: React.FC<{
 				handleMouseUp: () => void,
 				handleMouseDown: (row: number, column: number) => void
 }> = ({info, mouseDowned, handleClick, handleMouseUp, handleMouseDown}) => {
+
 	const path: 'path' | null = info.path ? 'path' : null
 	const explored: 'explored' | null = info.explored ? 'explored' : null
 

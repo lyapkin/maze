@@ -31,36 +31,44 @@ const App: React.FC = () => {
 	const [startPoint, setStartPoint]: [Coordinates | null, React.Dispatch<React.SetStateAction<Coordinates | null>>] = useState<Coordinates | null>(null)
 	const [endPoint, setEndPoint]: [Coordinates | null, React.Dispatch<React.SetStateAction<Coordinates | null>>] = useState<Coordinates | null>(null)
 	
+	// Change cell color drawing 'start', 'end', 'border' 
 	const changeColor = (row: number, column: number): void => {
 		setGrid(prev => {
 			const newState = [...prev]
 			const clickedCell = newState[row][column]
 			switch (cellState) {
 				case 'start':
+					// Remove 'start' from the previous start cell
 					if (startPoint) {
 						newState[startPoint.row][startPoint.column].state = null
 					}
 					setStartPoint({row, column})
+					// Remove 'end' if the current cell has been set as 'end'
 					if (endPoint && row === endPoint.row && column === endPoint.column) {
 						setEndPoint(null)
 					}
 					break
 				case 'end':
+					// Remove 'end' from the previous end cell
 					if (endPoint) {
 						newState[endPoint.row][endPoint.column].state = null
 					}
 					setEndPoint({row, column})
+					// Remove 'start' if the current cell has been set as 'start'
 					if (startPoint && row === startPoint.row && column === startPoint.column) {
 						setStartPoint(null)
 					}
 					break
 				case 'border':
+					// Remove 'start' or 'end' if the current cell has been set as 'start' or 'end'
 					if (startPoint && row === startPoint.row && column === startPoint.column) {
 						setStartPoint(null)
 					} else if (endPoint && row === endPoint.row && column === endPoint.column) {
 						setEndPoint(null)
 					} 
 			}
+			// Set the current cell state to a value of what we draw ('start', 'end' or border).
+			// The setting 'cellState' button is located in the 'Header' component
 			clickedCell.state = cellState
 			return newState
 		})
@@ -70,6 +78,7 @@ const App: React.FC = () => {
 		return async function() {
 			if (!(startPoint && endPoint)) throw new Error("There's no start or end point")
 
+			// Clean up the field from the previous search
 			setGrid( prev => prev.map(row => row.map(column => {
 												column.path = false
 												column.explored = false
@@ -79,7 +88,11 @@ const App: React.FC = () => {
 			)
 
 			try {
-				for await (let value of searchPath(grid, searchType, startPoint, endPoint)){
+				// Handle search. The 'searchPath' function locates in 'search-logic/main'
+				// The function return a coordinates of a cell that is explored or
+				// an array of coordinates with a path in the end
+				for await (let value of searchPath(grid, searchType, startPoint, endPoint)) {
+					// Draw a path from 'start' to 'end'
 					if (Array.isArray(value)) {
 						value.forEach(item => {
 							setGrid(prev => {
@@ -90,7 +103,7 @@ const App: React.FC = () => {
 						})
 						break
 					}
-
+					// Mark a cell as explored painting it out
 					setGrid(prev => {
 						const newState = [...prev]
 						const cor = value as Coordinates
@@ -103,7 +116,8 @@ const App: React.FC = () => {
 			}
 		}
 	}
-
+	
+	// Rset the field
 	const cleanField = () => {
 		setGrid(prev => prev.map(row => row.map(column => {
 											column.state = null
@@ -116,7 +130,12 @@ const App: React.FC = () => {
 	}
 
     return <>
-        <Header handleRadio={setCellState} handleStart={startSearch} handleClean={cleanField} cellState={cellState} />
+        <Header
+        	handleRadio={setCellState}
+        	handleStart={startSearch}
+        	handleClean={cleanField}
+        	cellState={cellState}
+        />
         <Field changeColor={changeColor} grid={grid}/>
     </>
 }

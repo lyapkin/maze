@@ -1,15 +1,6 @@
 import {Coordinates, NodeType} from '../interfaces/interfaces'
 
-interface Creator {
-	create(type: string): FrontierType
-}
 
-interface FrontierType {
-	add(node: NodeType): void
-	remove(): NodeType
-	isEmpty(): boolean
-	contains(state: Coordinates): boolean
-}
 
 class Frontier{
 	create(type: string, target: Coordinates) {
