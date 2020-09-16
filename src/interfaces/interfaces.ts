@@ -12,6 +12,16 @@ export interface NodeType {
 
 export type CellType = 'start' | 'end' | 'border' | null;
 
+export interface Field {
+	startPoint: Coordinates | null,
+	endPoint: Coordinates | null,
+	grid: Array<CellInfo[]>
+}
+export interface State {
+	cellType: {value: 'start' | 'end' | 'border'},
+	field: Field
+}
+
 export default interface CellInfo {
 	coordinates: Coordinates;
 	state: CellType;

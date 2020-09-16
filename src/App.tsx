@@ -1,38 +1,38 @@
-import React, {useState} from 'react'
-import Header from './components/Header'
-import Field from './components/Field'
-import CellInfo, {CellType, Coordinates} from './interfaces/interfaces'
-import {searchPath} from './search-logic/main'
-import {ROWS_AMOUNT, COLUMNS_AMOUNT} from './parameters'
+import React/*, {useState}*/ from 'react'
+import Header from './features/header/Header'
+import Field from './features/search/Field'
+// import CellInfo, {CellType, Coordinates} from './interfaces/interfaces'
+// import {searchPath} from './search-logic/main'
+// import {ROWS_AMOUNT, COLUMNS_AMOUNT} from './parameters'
 
 
 
-let data: Array<CellInfo[]> = [];
+// let data: Array<CellInfo[]> = [];
 
-for (let r = 0; r < ROWS_AMOUNT; r++) {
-	data[r] = []
-	for (let c = 0; c < COLUMNS_AMOUNT; c++) {
-		data[r][c] = {
-			coordinates: {
-				row: r,
-				column: c
-			},
-			state: null,
-			explored: false,
-			path: false
-		}
-	}
-}
+// for (let r = 0; r < ROWS_AMOUNT; r++) {
+// 	data[r] = []
+// 	for (let c = 0; c < COLUMNS_AMOUNT; c++) {
+// 		data[r][c] = {
+// 			coordinates: {
+// 				row: r,
+// 				column: c
+// 			},
+// 			state: null,
+// 			explored: false,
+// 			path: false
+// 		}
+// 	}
+// }
 
 
 const App: React.FC = () => {
-	const [cellState, setCellState]: [CellType, React.Dispatch<React.SetStateAction<CellType>>] = useState<CellType>('border')
-	const [grid, setGrid]: [Array<CellInfo[]>, React.Dispatch<React.SetStateAction< Array<CellInfo[]> >>] = useState(data)
-	const [startPoint, setStartPoint]: [Coordinates | null, React.Dispatch<React.SetStateAction<Coordinates | null>>] = useState<Coordinates | null>(null)
-	const [endPoint, setEndPoint]: [Coordinates | null, React.Dispatch<React.SetStateAction<Coordinates | null>>] = useState<Coordinates | null>(null)
+	// const [cellState, setCellState]: [CellType, React.Dispatch<React.SetStateAction<CellType>>] = useState<CellType>('border')
+	// const [grid, setGrid]: [Array<CellInfo[]>, React.Dispatch<React.SetStateAction< Array<CellInfo[]> >>] = useState(data)
+	// const [startPoint, setStartPoint]: [Coordinates | null, React.Dispatch<React.SetStateAction<Coordinates | null>>] = useState<Coordinates | null>(null)
+	// const [endPoint, setEndPoint]: [Coordinates | null, React.Dispatch<React.SetStateAction<Coordinates | null>>] = useState<Coordinates | null>(null)
 	
 	// Change cell color drawing 'start', 'end', 'border' 
-	const changeColor = (row: number, column: number): void => {
+	/*const changeColor = (row: number, column: number): void => {
 		setGrid(prev => {
 			const newState = [...prev]
 			const clickedCell = newState[row][column]
@@ -72,9 +72,9 @@ const App: React.FC = () => {
 			clickedCell.state = cellState
 			return newState
 		})
-	}
+	}*/
 
-	const startSearch = (searchType: string) => {
+	/*const startSearch = (searchType: string) => {
 		return async function() {
 			if (!(startPoint && endPoint)) throw new Error("There's no start or end point")
 
@@ -115,10 +115,10 @@ const App: React.FC = () => {
 				console.log(e)
 			}
 		}
-	}
+	}*/
 	
-	// Rset the field
-	const cleanField = () => {
+	// Reset the field
+	/*const cleanField = () => {
 		setGrid(prev => prev.map(row => row.map(column => {
 											column.state = null
 											column.explored = false
@@ -127,16 +127,14 @@ const App: React.FC = () => {
 										})
 						)
 		)
-	}
+	}*/
 
     return <>
         <Header
-        	handleRadio={setCellState}
-        	handleStart={startSearch}
-        	handleClean={cleanField}
-        	cellState={cellState}
+        	// handleStart={startSearch}
+        	// handleClean={cleanField}
         />
-        <Field changeColor={changeColor} grid={grid}/>
+        <Field /*changeColor={changeColor} grid={grid}*//>
     </>
 }
 
