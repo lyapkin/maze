@@ -85,7 +85,6 @@ class ASSFrontier extends BFSFrontier {
 				}
 			})
 			const node = this.frontier.splice(indexToRemove, 1)[0]
-			console.log(node.suposedCost)
 			return node
 		}
 	}

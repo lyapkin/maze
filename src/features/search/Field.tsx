@@ -1,19 +1,19 @@
 import React, {useState} from 'react'
 import Cell from './Cell'
-import CellInfo from '../interfaces/interfaces'
+import {useSelector} from 'react-redux'
+import {State} from '../../interfaces/interfaces'
 
 
 
-const Field: React.FC<{
-						changeColor: (row: number, column: number) => void,
-						grid: Array<CellInfo[]>
-					  }> = ({changeColor, grid}) => {
+const Field: React.FC = () => {
 					  	
 	const [mouseDowned, setMouseDowned] = useState(false)
 
-	const handleMouseDown = (row: number, column: number): void => {
+	const grid = useSelector((state: State) => state.field.grid)
+
+	const handleMouseDown = (changeColor: () => void): void => {
 		setMouseDowned(true)
-		changeColor(row, column)
+		changeColor()
 	}
 	const handleMouseUp = (): void => {
 		setMouseDowned(false)
@@ -27,7 +27,6 @@ const Field: React.FC<{
 											key={index}
 											info={cell}
 											mouseDowned={mouseDowned}
-											handleClick={changeColor}
 											handleMouseUp={handleMouseUp}
 											handleMouseDown={handleMouseDown}
 										/>) }
